@@ -14,7 +14,6 @@ struct Game {
 bool sdl_initialize(struct Game *game);
 
 
-
 void game_cleanup(struct Game *game) {
     if (game->renderer) {
         SDL_DestroyRenderer(game->renderer);
