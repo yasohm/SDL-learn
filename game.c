@@ -21,7 +21,7 @@ typedef struct {
     float vx, vy;
     int health;
     int active;
-    int type; // 0: fighter, 1: destroyer
+    int type; 
 } Enemy;
 
 typedef struct {
@@ -93,7 +93,7 @@ void spawnEnemy() {
 
 void drawShip(SDL_Renderer* renderer, float x, float y, int isPlayer) {
     if (isPlayer) {
-        // Player ship (blue glowing)
+        
         SDL_SetRenderDrawColor(renderer, 100, 200, 255, 255);
         SDL_Rect body = {x - 20, y - 10, 40, 20};
         SDL_RenderFillRect(renderer, &body);
@@ -102,14 +102,14 @@ void drawShip(SDL_Renderer* renderer, float x, float y, int isPlayer) {
         SDL_Rect cockpit = {x - 8, y - 15, 16, 10};
         SDL_RenderFillRect(renderer, &cockpit);
         
-        // Wings
+        
         SDL_SetRenderDrawColor(renderer, 80, 180, 230, 255);
         SDL_Rect wing1 = {x - 30, y, 10, 15};
         SDL_Rect wing2 = {x + 20, y, 10, 15};
         SDL_RenderFillRect(renderer, &wing1);
         SDL_RenderFillRect(renderer, &wing2);
         
-        // Engines
+        
         SDL_SetRenderDrawColor(renderer, 0, 150, 255, 255);
         SDL_Rect eng1 = {x - 15, y + 10, 8, 12};
         SDL_Rect eng2 = {x + 7, y + 10, 8, 12};
@@ -119,7 +119,7 @@ void drawShip(SDL_Renderer* renderer, float x, float y, int isPlayer) {
 }
 
 void drawFighter(SDL_Renderer* renderer, float x, float y) {
-    // X-wing style fighter (red/orange)
+    
     SDL_SetRenderDrawColor(renderer, 200, 100, 80, 255);
     SDL_Rect body = {x - 12, y - 8, 24, 16};
     SDL_RenderFillRect(renderer, &body);
@@ -130,7 +130,7 @@ void drawFighter(SDL_Renderer* renderer, float x, float y) {
     SDL_RenderFillRect(renderer, &wing1);
     SDL_RenderFillRect(renderer, &wing2);
     
-    // Engine glow
+    
     SDL_SetRenderDrawColor(renderer, 255, 100, 100, 255);
     SDL_Rect eng1 = {x - 8, y + 8, 4, 6};
     SDL_Rect eng2 = {x + 4, y + 8, 4, 6};
@@ -139,7 +139,7 @@ void drawFighter(SDL_Renderer* renderer, float x, float y) {
 }
 
 void drawDestroyer(SDL_Renderer* renderer, float x, float y) {
-    // Star Destroyer style (gray)
+
     SDL_SetRenderDrawColor(renderer, 120, 120, 130, 255);
     SDL_Rect body = {x - 25, y - 10, 50, 20};
     SDL_RenderFillRect(renderer, &body);
@@ -156,7 +156,7 @@ void drawDestroyer(SDL_Renderer* renderer, float x, float y) {
 }
 
 void update() {
-    // Update stars
+
     for (int i = 0; i < MAX_STARS; i++) {
         stars[i].y += 0.5;
         if (stars[i].y > HEIGHT) {
@@ -165,7 +165,7 @@ void update() {
         }
     }
     
-    // Update bullets
+
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (bullets[i].active) {
             bullets[i].x += bullets[i].vx;
@@ -177,7 +177,7 @@ void update() {
         }
     }
     
-    // Update enemies
+
     for (int i = 0; i < MAX_ENEMIES; i++) {
         if (enemies[i].active) {
             enemies[i].x += enemies[i].vx;
@@ -187,7 +187,6 @@ void update() {
                 enemies[i].active = 0;
             }
             
-            // Check collision with player
             float dx = enemies[i].x - player.x;
             float dy = enemies[i].y - player.y;
             float dist = sqrt(dx*dx + dy*dy);
@@ -202,7 +201,6 @@ void update() {
         }
     }
     
-    // Check bullet-enemy collisions
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (bullets[i].active) {
             for (int j = 0; j < MAX_ENEMIES; j++) {
@@ -230,17 +228,14 @@ void render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     
-    // Draw stars
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for (int i = 0; i < MAX_STARS; i++) {
         SDL_Rect star = {stars[i].x, stars[i].y, stars[i].size, stars[i].size};
         SDL_RenderFillRect(renderer, &star);
     }
     
-    // Draw player
     drawShip(renderer, player.x, player.y, 1);
     
-    // Draw bullets
     SDL_SetRenderDrawColor(renderer, 0, 255, 100, 255);
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (bullets[i].active) {
@@ -249,7 +244,6 @@ void render(SDL_Renderer* renderer) {
         }
     }
     
-    // Draw enemies
     for (int i = 0; i < MAX_ENEMIES; i++) {
         if (enemies[i].active) {
             if (enemies[i].type == 0) {
@@ -260,7 +254,6 @@ void render(SDL_Renderer* renderer) {
         }
     }
     
-    // Draw HUD
     SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     SDL_Rect healthBar = {10, 10, player.health * 2, 20};
     SDL_RenderFillRect(renderer, &healthBar);
